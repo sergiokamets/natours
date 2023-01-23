@@ -41,6 +41,7 @@ const sendErrorProd = (err, req, res) => {
       msg: err.message,
     });
   }
+  // Log errors for devs
   console.log('ERROR 💥', err);
   return res.status(err.statusCode).render('error', {
     title: 'Something went wrong!',
@@ -79,7 +80,6 @@ module.exports = (err, req, res, next) => {
     // create object copy with destruction
     let error = { ...err };
     error.message = err.message;
-    //console.log(error);
     if (err.name === 'CastError') error = handleCastErrorDB(err);
     if (err.code === 11000) error = handleDuplicateFieldsDB(err);
     if (err.name === 'ValidationError') error = handleValidationErrorDB(err);

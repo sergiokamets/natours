@@ -46,7 +46,7 @@ exports.resizeTourImages = catchAsync(async (req, res, next) => {
       req.body.images.push(filename);
     })
   );
-  console.log(req.body.images);
+
   next();
 });
 exports.aliasTopTours = (req, res, next) => {

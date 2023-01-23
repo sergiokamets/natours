@@ -17,6 +17,7 @@ const bookingRouter = require('./routes/bookingRoutes');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 const app = express();
 
 app.set('view engine', 'pug');
@@ -92,7 +93,8 @@ app.use(
   })
 );
 
-//serving static files
+//compression
+app.use(compression());
 
 //test midleware
 app.use((req, res, next) => {
