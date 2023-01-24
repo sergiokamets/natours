@@ -13,6 +13,7 @@ const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const viewRouter = require('./routes/viewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
+const bookingController = require('./controllers/bookingController');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -57,14 +58,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 //         ],
 //         'connect-src': [
 //           "'self'",
-//           '*',
-//           // 'ws://localhost:*',
-//           // 'ws://127.0.0.1:*',
-//           // 'http://127.0.0.1:*',
-//           // 'http://localhost:*',
-//           // 'https://*.tiles.mapbox.com',
-//           // 'https://api.mapbox.com',
-//           // 'https://events.mapbox.com',
+//           'ws://localhost:*',
+//           'ws://127.0.0.1:*',
+//           'http://127.0.0.1:*',
+//           'http://localhost:*',
+//           'https://*.tiles.mapbox.com',
+//           'https://api.mapbox.com',
+//           'https://events.mapbox.com',
 //         ],
 //       },
 //     },
@@ -84,6 +84,12 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again in an hour!',
 });
 app.use('/api', limiter);
+
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  bookingController.webhookCheckout
+);
 
 //body parser, reading data
 app.use(express.json({ limit: '10kb' }));
