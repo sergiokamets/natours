@@ -18,9 +18,22 @@ const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const cors = require('cors');
 const app = express();
 
-app.enable('trus proxy');
+//implement CORS
+// Set Access-Control-Allow-Origin *
+app.use(cors());
+// how to allow access for specific site (frontend), like api.natour.com, frontend example.com
+// app.use(cors({
+//   origin: 'https://www.example.com'
+// }))
+
+//add access for not simple requests(patch, delete, .etc) (either get or post)
+app.options('*', cors());
+//allow for specific routes
+//app.options('/api/v1/tours/:id', cors())
+app.enable('trust proxy');
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
