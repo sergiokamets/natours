@@ -60,6 +60,7 @@ const createBookingCheckout = async (session) => {
   const price = session.line_items[0].price_data.unit_amount / 100;
   await Booking.create({ tour, user, price });
 };
+
 exports.webhookCheckout = (req, res, next) => {
   const signature = req.headers['stripe-signature'];
   let event;
@@ -67,7 +68,7 @@ exports.webhookCheckout = (req, res, next) => {
     event = stripe.webhooks.constructEvent(
       req.body,
       signature,
-      preccess.env.STRIPE_WEBHOOK_SECRET
+      proccess.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (err) {
     return res.status(400).send(`Webhook error: ${err.message}`);
